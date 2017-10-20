@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <script>
+        $(function () {
+            login();
+            test();
+            show();
+        });
+
+        function login() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://192.168.2.238:8000/json/reply/UserLoginReq',
+                dataType: 'json',
+                data: {
+                    'uid': 'admin',
+                    'pwd': '1111'
+                },
+                success: function (data) {
+                    alert(data);
+                    console.log(data);
+                },
+                error: function (e) { alert('error'); }
+            });
+        }
+
+        function test() {
+
+            /*
+            跨域请求，服务器端需要设置
+            Access-Control-Allow-Origin:*
+            Access-Control-Allow-Methods:GET, POST, PUT, DELETE, OPTIONS
+            Access-Control-Allow-Headers:access_token,id
+            //*/
+            $.ajax({
+                type: 'POST',
+                url: 'http://192.168.2.238:8000/json/reply/QueryReferenceUsersReq',
+                //请求类型为text/plain（用chrome可以看到数据以request payload方式存储，和普通的表单不同。如果用application/json类型请求的话，后端得设置Access-Control-Allow-Headers:Content-Type），非默认3种application/x-www-form-urlencoded, multipart/form-data, 或text/plain会引起preflighted request，从而引发OPTIONS请求
+                contentType: 'text/plain',
+                //响应格式
+                dataType: 'json',
+                //请求数据，如果请求数据类型为application/json，必须将json对象转为字符串
+                data: JSON.stringify({
+                    query_entity: {
+                        IsAllowLogin: 1
+                    }
+                }),
+                //自定义请求头
+                beforeSend: function (XMLHttpRequest) {
+                    //HttpUtility.UrlEncode
+                    var sessionid = "SessionID";
+                    XMLHttpRequest.setRequestHeader('id', '09386428-4273-4B55-9E02-705FC411EE67');
+                    XMLHttpRequest.setRequestHeader('access_token', '5de02cb0-7ee1-4659-ad83-09e2c05bfb42');
+                },
+                success: function (data) {
+                    alert(data);
+                    console.log(data);
+                },
+                error: function (e) { alert('error'); }
+            });
+        }
+
+        function show() {
+
+            /*
+            跨域请求，服务器端需要设置
+            Access-Control-Allow-Origin:*
+            Access-Control-Allow-Methods:GET, POST, PUT, DELETE, OPTIONS
+            Access-Control-Allow-Headers:access_token,id
+            //*/
+            $.ajax({
+                type: 'GET',
+                url: 'http://192.168.2.238:8000/json/reply/QueryAllDepartmentsReq',
+                //请求类型为text/plain（用chrome可以看到数据以request payload方式存储，和普通的表单不同。如果用application/json类型请求的话，后端得设置Access-Control-Allow-Headers:Content-Type），非默认3种application/x-www-form-urlencoded, multipart/form-data, 或text/plain会引起preflighted request，从而引发OPTIONS请求
+                //contentType: 'text/plain',
+                //响应格式
+                dataType: 'json',
+                //请求数据，如果请求数据类型为application/json，必须将json对象转为字符串
+                //data: JSON.stringify({
+                //    query_entity: {
+                //        IsAllowLogin: 1
+                //    }
+                //}),
+                //自定义请求头
+                beforeSend: function (XMLHttpRequest) {
+                    //HttpUtility.UrlEncode
+                    var sessionid = "SessionID";
+                    XMLHttpRequest.setRequestHeader('id', '09386428-4273-4B55-9E02-705FC411EE67');
+                    XMLHttpRequest.setRequestHeader('access_token', '5de02cb0-7ee1-4659-ad83-09e2c05bfb42');
+                },
+                success: function (data) {
+                    alert(data);
+                    console.log(data);
+                },
+                error: function (e) { alert('error'); }
+            });
+        }
+
+        //http://192.168.2.238:8000/json/reply/QueryAllDepartmentsReq
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>
